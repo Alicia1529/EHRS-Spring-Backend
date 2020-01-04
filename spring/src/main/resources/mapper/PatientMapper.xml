@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.company.project.dao.PatientMapper">
+  <resultMap id="BaseResultMap" type="com.company.project.model.Patient">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="patient_email" jdbcType="VARCHAR" property="patientEmail" />
+    <result column="first_name" jdbcType="VARCHAR" property="firstName" />
+    <result column="last_name" jdbcType="VARCHAR" property="lastName" />
+    <result column="gender" jdbcType="VARCHAR" property="gender" />
+    <result column="birthday" jdbcType="DATE" property="birthday" />
+    <result column="health_information" jdbcType="CHAR" property="healthInformation" />
+    <result column="status" jdbcType="TINYINT" property="status" />
+  </resultMap>
+  
+  <select id="findByEmail" parameterType="String" resultMap="BaseResultMap">
+  	select * from Patient where patient_email=#{email, jdbcType=VARCHAR}
+  </select>
+  <select id="findAll" resultMap="BaseResultMap">
+  	select * from Patient
+  </select>
+  <insert id="addPatient">
+	insert into Patient (patient_email, first_name, last_name, gender, birthday, health_information) values (#{email}, #{first_name}, #{last_name},#{gender},#{birthday},#{health_information})
+  </insert>
+  <update id="activateAccount">
+    update Patient set status=1 where patient_email = #{email}
+  </update>	  
+</mapper>

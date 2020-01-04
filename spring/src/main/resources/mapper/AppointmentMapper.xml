@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.company.project.dao.AppointmentMapper">
+  <resultMap id="BaseResultMap" type="com.company.project.model.AppointmentView">
+    <id column="appointment_id" jdbcType="INTEGER" property="appointmentId" />
+    <result column="time_slot_id" jdbcType="INTEGER" property="timeSlotId" />
+    <result column="patient_email" jdbcType="VARCHAR" property="patientEmail" />
+    <result column="doctor_email" jdbcType="VARCHAR" property="doctorEmail" />
+    <result column="case_description" jdbcType="VARCHAR" property="caseDescription" />
+    <association property="doctor" column="doctorEmail" javaType="com.company.project.model.Doctor">
+    	<id column="email" jdbcType="VARCHAR" property="doctorEmail" />
+    	<result column="department_id" jdbcType="INTEGER" property="departmentId" />
+    	<result column="hospital_id" jdbcType="VARCHAR" property="hospitalId" />
+    	<result column="title" jdbcType="VARCHAR" property="title" />
+    	<result column="birthday" jdbcType="DATE" property="birthday" />
+    	<result column="dr_gender" jdbcType="VARCHAR" property="gender" />
+    	<result column="dr_first_name" jdbcType="VARCHAR" property="firstName" />
+    	<result column="dr_last_name" jdbcType="VARCHAR" property="lastName" />
+    </association>
+    <association property="department" column="departmentId" javaType="com.company.project.model.Department">
+    	<id column="department_id" jdbcType="INTEGER" property="departmentId" />
+    	<result column="hospital_id" jdbcType="VARCHAR" property="hospitalId" />
+    	<result column="department_name" jdbcType="VARCHAR" property="departmentName" />
+    </association>
+    <association property="hospital" column="hospitalId" javaType="com.company.project.model.Hospital">
+    	<id column="hospital_id" jdbcType="VARCHAR" property="hospitalId" />
+    	<result column="hospital_name" jdbcType="VARCHAR" property="hospitalName" />
+    </association>
+    <association property="timeslot" column="timeSlotId" javaType="com.company.project.model.Timeslot">
+    	<id column="time_slot_id" jdbcType="INTEGER" property="timeSlotId" />
+    	<result column="doctor_email" jdbcType="VARCHAR" property="doctorEmail" />
+    	<result column="seat" jdbcType="INTEGER" property="seat" />
+    	<result column="capacity" jdbcType="INTEGER" property="capacity" />
+    	<result column="date" jdbcType="DATE" property="date" />
+    	<result column="start_time" jdbcType="VARCHAR" property="startTime" />
+    </association>            
+	<association property="patient" column="patientEmail" javaType="com.company.project.model.Patient">
+    	<id column="patient_email" jdbcType="VARCHAR" property="patientEmail" />
+    	<result column="first_name" jdbcType="VARCHAR" property="firstName" />
+    	<result column="last_name" jdbcType="VARCHAR" property="lastName" />
+    	<result column="gender" jdbcType="VARCHAR" property="gender" />
+    	<result column="birthday" jdbcType="DATE" property="birthday" />
+    	<result column="health_information" jdbcType="CHAR" property="healthInformation" />
+    </association>
+  </resultMap>
+  
+  <resultMap id="AppintmentMap" type="com.company.project.model.Appointment">
+    <id column="appointment_id" jdbcType="INTEGER" property="appointmentId" />
+    <result column="time_slot_id" jdbcType="INTEGER" property="timeSlotId" />
+    <result column="patient_email" jdbcType="VARCHAR" property="patientEmail" />
+    <result column="doctor_email" jdbcType="VARCHAR" property="doctorEmail" />
+    <result column="case_description" jdbcType="VARCHAR" property="caseDescription" />
+  </resultMap>
+  
+  <select id="findById" parameterType="Integer" resultMap="BaseResultMap">
+  	select a.*, 
+		d.dr_first_name, d.dr_last_name, d.title, d.dr_gender,
+		depart.department_name, hos.hospital_name,
+		t.date, t.start_time,
+		p.first_name, p.last_name, p.gender, p.health_information, p.birthday
+  	from Appointment a inner join Doctor d on a.doctor_email=d.doctor_email 
+		inner join Department depart on d.department_id=depart.department_id
+		inner join Hospital hos on d.hospital_id=hos.hospital_id
+		inner join TimeSlot t on a.time_slot_id=t.time_slot_id
+		inner join Patient p on a.patient_email=p.patient_email
+  	where a.appointment_id=#{appointment_id}
+  </select>
+  <select id="checkAppointment" resultType="Integer">
+  	select count(*) from Appointment a inner join Doctor d on a.doctor_email=d.doctor_email 
+		inner join Department depart on d.department_id=depart.department_id
+		inner join Hospital hos on d.hospital_id=hos.hospital_id
+		inner join TimeSlot t on a.time_slot_id=t.time_slot_id
+		inner join Patient p on a.patient_email=p.patient_email
+  	where a.patient_email=#{patient_email} and a.doctor_email=#{doctor_email} and t.date=#{time_slot_date, jdbcType=DATE}
+  </select>
+  <select id="findByDoctorEmail" parameterType="String" resultMap="BaseResultMap">
+  	select a.*, 
+		d.dr_first_name, d.dr_last_name, d.title, d.dr_gender,
+		depart.department_name, hos.hospital_name,
+		t.date, t.start_time,
+		p.first_name, p.last_name, p.gender, p.health_information, p.birthday
+  	from Appointment a inner join Doctor d on a.doctor_email=d.doctor_email 
+		inner join Department depart on d.department_id=depart.department_id
+		inner join Hospital hos on d.hospital_id=hos.hospital_id
+		inner join TimeSlot t on a.time_slot_id=t.time_slot_id
+		inner join Patient p on a.patient_email=p.patient_email
+  	where a.doctor_email=#{doctor_email} order by t.date,t.start_time
+  </select>
+  <select id="findByPatientEmail" parameterType="String" resultMap="BaseResultMap">
+  	select a.*, 
+		d.dr_first_name, d.dr_last_name, d.title, d.dr_gender,
+		depart.department_name, hos.hospital_name,
+		t.date, t.start_time,
+		p.first_name, p.last_name, p.gender, p.health_information, p.birthday
+  	from Appointment a inner join Doctor d on a.doctor_email=d.doctor_email 
+		inner join Department depart on d.department_id=depart.department_id
+		inner join Hospital hos on d.hospital_id=hos.hospital_id
+		inner join TimeSlot t on a.time_slot_id=t.time_slot_id
+		inner join Patient p on a.patient_email=p.patient_email
+  	where a.patient_email=#{patient_email} order by t.date,t.start_time
+  </select>
+  <select id="findLatestAppointment" parameterType="String" resultMap="BaseResultMap">
+  	select a.*, 
+		d.dr_first_name, d.dr_last_name, d.title, d.dr_gender,
+		depart.department_name, hos.hospital_name,
+		t.date, t.start_time,
+		p.first_name, p.last_name, p.gender, p.health_information, p.birthday
+  	from Appointment a inner join Doctor d on a.doctor_email=d.doctor_email 
+		inner join Department depart on d.department_id=depart.department_id
+		inner join Hospital hos on d.hospital_id=hos.hospital_id
+		inner join TimeSlot t on a.time_slot_id=t.time_slot_id
+		inner join Patient p on a.patient_email=p.patient_email
+  	where a.patient_email=#{patient_email} order by t.date, t.start_time limit 1
+  </select>
+  <insert id="addAppointment">
+	insert into Appointment (time_slot_id,patient_email,doctor_email) 
+	values (#{time_slot_id},#{patient_email},#{doctor_email})
+  </insert>
+   <delete id="cancelAppointment" parameterType="Integer">
+	delete from Appointment where appointment_id = #{appointment_id}
+  </delete>
+  <update id="addCaseReport">
+    update Appointment set case_description=#{case_report} where appointment_id = #{appointment_id}
+  </update>
+</mapper>

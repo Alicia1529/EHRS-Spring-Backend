@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.company.project.dao.DoctorMapper">
+  <resultMap id="BaseResultMap" type="com.company.project.model.Doctor">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="doctor_email" jdbcType="VARCHAR" property="doctorEmail" />
+    <result column="department_id" jdbcType="INTEGER" property="departmentId" />
+    <result column="hospital_id" jdbcType="VARCHAR" property="hospitalId" />
+    <result column="title" jdbcType="VARCHAR" property="title" />
+    <result column="birthday" jdbcType="DATE" property="birthday" />
+    <result column="dr_gender" jdbcType="VARCHAR" property="gender" />
+    <result column="dr_first_name" jdbcType="VARCHAR" property="firstName" />
+    <result column="dr_last_name" jdbcType="VARCHAR" property="lastName" />
+  </resultMap>
+  
+  <resultMap id="InfoResultMap" type="com.company.project.model.DoctorView">
+    <id column="doctor_email" jdbcType="VARCHAR" property="doctorEmail" />
+    <result column="department_id" jdbcType="INTEGER" property="departmentId" />
+    <result column="hospital_id" jdbcType="VARCHAR" property="hospitalId" />
+    <result column="title" jdbcType="VARCHAR" property="title" />
+    <result column="birthday" jdbcType="DATE" property="birthday" />
+    <result column="dr_gender" jdbcType="VARCHAR" property="gender" />
+    <result column="dr_first_name" jdbcType="VARCHAR" property="firstName" />
+    <result column="dr_last_name" jdbcType="VARCHAR" property="lastName" />
+    <association property="department" column="departmentId" javaType="com.company.project.model.Department">
+    	<id column="department_id" jdbcType="INTEGER" property="departmentId" />
+    	<result column="hospital_id" jdbcType="VARCHAR" property="hospitalId" />
+    	<result column="department_name" jdbcType="VARCHAR" property="departmentName" />
+    </association>
+    <association property="hospital" column="hospitalId" javaType="com.company.project.model.Hospital">
+    	<id column="hospital_id" jdbcType="VARCHAR" property="hospitalId" />
+    	<result column="hospital_name" jdbcType="VARCHAR" property="hospitalName" />
+    </association>
+  </resultMap>
+  
+  
+  <select id="findByHospitalId" parameterType="String" resultMap="BaseResultMap">
+  	select * from Doctor where hospital_id=#{hospital_id}
+  </select>
+    
+  <select id="findByDepartmentName" parameterType="String" resultMap="BaseResultMap">
+  	select * from Doctor natural join Department where department_name=#{department_name, jdbcType=VARCHAR}
+  </select>
+  
+  <select id="findByDepartmentId" parameterType="int" resultMap="BaseResultMap">
+  	select * from Doctor where department_id=#{department_id}
+  </select> 
+
+  <select id="findByEmail" parameterType="String" resultMap="InfoResultMap">
+  	select dr.*, dp.department_name, h.hospital_name
+  	from Doctor dr 
+  	inner join Department dp on dr.department_id=dp.department_id
+  	inner join Hospital h on dr.hospital_id=h.hospital_id
+  	where dr.doctor_email=#{doctor_email}
+  </select>
+  
+  <insert id="addDoctor">
+	insert into Doctor (doctor_email,department_id,hospital_id,title,birthday,dr_gender,dr_first_name,dr_last_name) 
+	values (#{doctor_email}, #{department_id}, #{hospital_id}, #{title}, #{birthday}, #{gender}, #{first_name}, #{last_name})
+  </insert>
+</mapper>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.company.project.dao.UserMapper">
+  <resultMap id="BaseResultMap" type="com.company.project.model.User">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="user_email" jdbcType="VARCHAR" property="userEmail" />
+    <result column="password" jdbcType="VARCHAR" property="password" />
+    <result column="role" jdbcType="VARCHAR" property="role" />
+  </resultMap>
+  
+  <insert id="addUser">
+  	insert into User (user_email, password, role) values (#{email}, #{password}, #{role})
+  </insert>
+  <select id="findByEmail" parameterType="String" resultMap="BaseResultMap">
+  	select * from User where user_email=#{email, jdbcType=VARCHAR}
+  </select>
+</mapper>

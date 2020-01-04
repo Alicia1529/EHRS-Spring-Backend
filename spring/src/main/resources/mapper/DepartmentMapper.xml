@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.company.project.dao.DepartmentMapper">
+  <resultMap id="BaseResultMap" type="com.company.project.model.Department">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="department_id" jdbcType="INTEGER" property="departmentId" />
+    <result column="hospital_id" jdbcType="VARCHAR" property="hospitalId" />
+    <result column="department_name" jdbcType="VARCHAR" property="departmentName" />
+  </resultMap>
+  
+  <select id="findByHospitalId" parameterType="String" resultMap="BaseResultMap">
+  	select * from Department where hospital_id=#{hospital_id}
+  </select>
+  <insert id="addDepartment">
+	insert into Department (hospital_id, department_name) values (#{hospital_id}, #{department_name})
+  </insert>
+  
+</mapper>
