@@ -1,6 +1,6 @@
 ## Spring-Backend
 
-### [Live demo](billyzou.com): Only PATIENT role is available
+### [Live demo](billyzou.com): Here are some accounts you may try to use
 
 #### Sample patient account
 You can try to register a new account and play with it
