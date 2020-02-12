@@ -1,7 +1,10 @@
 #### Technical stack
 *Web Framework*: Spring Boot
+
 *Security Framework*: Apache Shiro
+
 *Persistence*: MyBatis
+
 *Dependency Management*: Maven
 
 ## Spring-Backend
