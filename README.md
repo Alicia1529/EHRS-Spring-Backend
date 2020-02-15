@@ -1,7 +1,8 @@
 ## Spring-Backend
 
-### [Live demo with front-end integrated](billyzou.com): Here are some accounts you may want to try
-(currently not available, maybe try the below backend link)
+### Live demo with front-end integrated: [click here](billyzou.com)
+Here are some accounts you may want to try.
+(currently not available, maybe try the below link for backend)
 
 #### Sample patient account
 You can try to register a new account and play with it
@@ -16,7 +17,7 @@ email: seimc1228
 
 password: seimc1228_password
 
-### [API documentation](https://galactic-water-5893.postman.co/collections/8887048-39efb6fd-7f84-4231-a5e1-5c0719fa7886?version=latest&workspace=64c4b77c-2340-4b0e-835e-ee33fe7e5ae2): Powered by Postman
+### API documentation: [Powered by Postman](https://galactic-water-5893.postman.co/collections/8887048-39efb6fd-7f84-4231-a5e1-5c0719fa7886?version=latest&workspace=64c4b77c-2340-4b0e-835e-ee33fe7e5ae2)
 
 ### Backend Service Url: https://server.alicialuo.com
 Please see the above API doc about how to send requests to the backend server
