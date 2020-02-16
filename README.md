@@ -1,8 +1,8 @@
 ## Spring-Backend
+![](spring-ehrs.jpg)
 
-### Live demo with front-end integrated: [click here](billyzou.com)
+### Live demo with front-end integrated: [click here](https://spring-6b48wv372.now.sh)
 Here are some accounts you may want to try.
-(currently not available, maybe try the below link for backend)
 
 #### Sample patient account
 You can try to register a new account and play with it
